@@ -1,10 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/index.css'
+import GameLoop from './components/gameloop.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-        <h1>Test</h1>
+        <GameLoop/>
   </StrictMode>,
 )
 
@@ -63,8 +64,8 @@ GameLoop(){
     const [gameOver, setGameOver] = useState(false);
     const [amount, setAmount] = useState(9)// a dropdown with different sizes to play with
     const [cards, setCards] = useState(fetchCards(amount));
-    const [currentScore, setCurrentScore] = useState(0);
-    const [bestScore, setBestScore] = useState(0);
+    const currentScore = useRef(0)
+    const bestScore = useRef(0)
 
     return(
         // if gameOver is false
