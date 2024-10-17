@@ -1,5 +1,6 @@
 import {useState, useRef, useEffect} from 'react'
 import fetchCards from '../fetchcards.jsx'
+import Card from './card.jsx'
 
 function shuffleCards(cards){
     let cardsCopy = cards.slice();
@@ -25,6 +26,7 @@ function GameLoop(){
 
     const currentScore = useRef(0);
     const bestScore = useRef(0);
+    const clickedCards = useRef([]);
 
 
     useEffect(() => {
@@ -34,8 +36,10 @@ function GameLoop(){
             let tmp = await fetchCards(amount);
             setCards(tmp);
         }
-        if(!ignore){ handleCards() };
-
+        if(!ignore){
+            clickedCards.current = new Set();
+            handleCards()
+        };
 
         return () => {
             ignore = true;
@@ -66,22 +70,44 @@ function GameLoop(){
                     </select>
                 </label>
 
-                <button
-                    onClick={()=>{
-                        console.log(cards)
-                    }}
-                >
-                    log cards
-                </button>
+                <div className="buttons-container">
+                    <button
+                        onClick={()=>{
+                            console.log(cards)
+                        }}
+                    >
+                        log cards
+                    </button>
 
-                <button
-                    onClick={() => {
-                        let tmp = shuffleCards(cards);
-                        setCards(tmp);
-                    }}
-                >
-                    shuffle cards
-                </button>
+                    <button
+                        onClick={() => {
+                            let tmp = shuffleCards(cards);
+                            setCards(tmp);
+                        }}
+                    >
+                        shuffle cards
+                    </button>
+                </div>
+
+                <div className="cards-container">
+                    {
+                        cards[0] ?
+                            cards.map(card => {
+                                return(
+                                    <Card
+                                        key={card.code}
+                                        card={card}
+                                        clickedCards={clickedCards.current}
+                                        onClick={()=>{
+                                            clickedCards.current.add(card.code);
+                                            console.log(clickedCards.current);
+                                        }}
+                                    />
+                                )
+                            })
+                        : 'loading...'
+                    }
+                </div>
             </>
         :
             <>

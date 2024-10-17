@@ -1,11 +1,28 @@
-:root {
+body {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
 }
 
-body {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
+#root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.cards-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    gap: 5px;
+}
+.cards-container .card {
+    width: fit-content;
+}
+.cards-container .card img {
+    display: block;
+    max-width: calc(100vw / 3.5);
 }
