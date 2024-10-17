@@ -1,9 +1,22 @@
 import {useState, useRef, useEffect} from 'react'
 import fetchCards from '../fetchcards.jsx'
 
-//function shuffleCards(cards){
-//    console.log(cards);
-//}
+function shuffleCards(cards){
+    let cardsCopy = cards.slice();
+    let shuffledCards = [];
+
+    while(cardsCopy.length > 0){
+        const randomIndex = Math.floor(Math.random() * cardsCopy.length)
+
+        shuffledCards.push(cardsCopy[randomIndex]);
+
+        cardsCopy = cardsCopy.filter(card => {
+            return card !== cardsCopy[randomIndex];
+        })
+    }
+
+    return shuffledCards;
+}
 
 function GameLoop(){
     const [gameOver, setGameOver] = useState(false);
@@ -12,6 +25,7 @@ function GameLoop(){
 
     const currentScore = useRef(0);
     const bestScore = useRef(0);
+
 
     useEffect(() => {
         let ignore = false;
@@ -57,7 +71,16 @@ function GameLoop(){
                         console.log(cards)
                     }}
                 >
-                    click
+                    log cards
+                </button>
+
+                <button
+                    onClick={() => {
+                        let tmp = shuffleCards(cards);
+                        setCards(tmp);
+                    }}
+                >
+                    shuffle cards
                 </button>
             </>
         :
