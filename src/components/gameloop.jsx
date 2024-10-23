@@ -19,6 +19,13 @@ function shuffleCards(cards){
     return shuffledCards;
 }
 
+function trackScore(currentScore, bestScore){
+    currentScore.current++;
+    if(currentScore.current > bestScore.current){
+        bestScore.current = currentScore.current;
+    }
+}
+
 function GameLoop(){
     const [gameOver, setGameOver] = useState(false);
     const [amount, setAmount] = useState(9);
@@ -75,23 +82,9 @@ function GameLoop(){
                     </select>
                 </label>
 
-                <div className="buttons-container">
-                    <button
-                        onClick={()=>{
-                            console.log(cards)
-                        }}
-                    >
-                        log cards
-                    </button>
-
-                    <button
-                        onClick={() => {
-                            let tmp = shuffleCards(cards);
-                            setCards(tmp);
-                        }}
-                    >
-                        shuffle cards
-                    </button>
+                <div className="scores">
+                    <p>Current Score: {currentScore.current}</p>
+                    <p>Best Score: {bestScore.current}</p>
                 </div>
 
                 <div className="cards-container">
@@ -105,14 +98,14 @@ function GameLoop(){
                                         clickedCards={clickedCards.current}
                                         onClick={()=>{
                                             if(clickedCards.current.has(card.code)){
-                                                setGameOver(true)
+                                                setGameOver(true);
                                             } else if(clickedCards.current.size === 8){
+                                                trackScore(currentScore, bestScore);
                                                 clickedCards.current.add(card.code);
-                                                setGameOver(true)
+                                                setGameOver(true);
                                             } else {
                                                 clickedCards.current.add(card.code);
-                                                console.log(clickedCards.current);
-
+                                                trackScore(currentScore, bestScore);
                                                 let tmp = shuffleCards(cards)
                                                 setCards(tmp)
                                             }
@@ -133,6 +126,11 @@ function GameLoop(){
                     :
                         <h1>You Lost!!</h1>
                 }
+                <div className="scores">
+                    <p>Current Score: {currentScore.current}</p>
+                    <p>Best Score: {bestScore.current}</p>
+                </div>
+
                 <div>
                     <p>cards length: {cards.length}</p>
                     <p>clicked cards: {clickedCards.current.size}</p>
@@ -140,6 +138,7 @@ function GameLoop(){
 
                 <button
                     onClick={()=>{
+                        currentScore.current = 0;
                         clickedCards.current = new Set();
                         handleCards();
                         setGameOver(false);
