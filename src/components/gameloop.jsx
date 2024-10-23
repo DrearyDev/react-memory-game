@@ -28,17 +28,17 @@ function GameLoop(){
     const bestScore = useRef(0);
     const clickedCards = useRef([]);
 
+    async function handleCards(){
+        let tmp = await fetchCards(amount);
+        setCards(tmp);
+    }
 
     useEffect(() => {
         let ignore = false;
 
-        async function handleCards(){
-            let tmp = await fetchCards(amount);
-            setCards(tmp);
-        }
         if(!ignore){
             clickedCards.current = new Set();
-            handleCards()
+            handleCards();
         };
 
         return () => {
@@ -49,8 +49,8 @@ function GameLoop(){
     return(
         gameOver === false ?
             <>
-                <h1>gameover false</h1>
-
+                <h3 className="instruction">Dont click the same card twice!</h3>
+                
                 <label htmlFor='amount-select'>
                     Amount of Cards:
                     <select 
@@ -99,8 +99,18 @@ function GameLoop(){
                                         card={card}
                                         clickedCards={clickedCards.current}
                                         onClick={()=>{
-                                            clickedCards.current.add(card.code);
-                                            console.log(clickedCards.current);
+                                            if(clickedCards.current.has(card.code)){
+                                                setGameOver(true)
+                                            } else if(clickedCards.current.size === 8){
+                                                clickedCards.current.add(card.code);
+                                                setGameOver(true)
+                                            } else {
+                                                clickedCards.current.add(card.code);
+                                                console.log(clickedCards.current);
+
+                                                let tmp = shuffleCards(cards)
+                                                setCards(tmp)
+                                            }
                                         }}
                                     />
                                 )
@@ -111,7 +121,27 @@ function GameLoop(){
             </>
         :
             <>
-                <h1>gameover true</h1>
+                {
+                    clickedCards.current.size === cards.length ?
+
+                        <h1>You Won!!</h1>
+                    :
+                        <h1>You Lost!!</h1>
+                }
+                <div>
+                    <p>cards length: {cards.length}</p>
+                    <p>clicked cards: {clickedCards.current.size}</p>
+                </div>
+
+                <button
+                    onClick={()=>{
+                        clickedCards.current = new Set();
+                        handleCards();
+                        setGameOver(false);
+                    }}
+                >
+                    Play Again
+                </button>
             </>
     )
 }
