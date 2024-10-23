@@ -28,6 +28,8 @@ function GameLoop(){
     const bestScore = useRef(0);
     const clickedCards = useRef([]);
 
+    const amountOptions = [9,12,16,24,52];
+
     async function handleCards(){
         let tmp = await fetchCards(amount);
         setCards(tmp);
@@ -56,17 +58,20 @@ function GameLoop(){
                     <select 
                         name="amount"
                         id='amount-select'
+                        defaultValue={amount}
 
                         onChange={(e) => {
                             let tmp = Number(e.target.value)
                             setAmount(tmp);
                         }}
                     >
-                        <option value="9">9</option>
-                        <option value="12">12</option>
-                        <option value="16">16</option>
-                        <option value="24">24</option>
-                        <option value="52">52</option>
+                        {
+                            amountOptions.map(opt => {
+                                return(
+                                    <option key={opt} value={opt}>{opt}</option>
+                                )
+                            })
+                        }
                     </select>
                 </label>
 
