@@ -99,7 +99,7 @@ function GameLoop(){
                                         onClick={()=>{
                                             if(clickedCards.current.has(card.code)){
                                                 setGameOver(true);
-                                            } else if(clickedCards.current.size === 8){
+                                            } else if(clickedCards.current.size === (amount-1)){
                                                 trackScore(currentScore, bestScore);
                                                 clickedCards.current.add(card.code);
                                                 setGameOver(true);
