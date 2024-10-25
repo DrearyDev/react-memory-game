@@ -129,11 +129,8 @@ function GameLoop(){
                 <div className="scores">
                     <p>Current Score: {currentScore.current}</p>
                     <p>Best Score: {bestScore.current}</p>
-                </div>
-
-                <div>
-                    <p>cards length: {cards.length}</p>
-                    <p>clicked cards: {clickedCards.current.size}</p>
+                    <p>Amount of Cards: {cards.length}</p>
+                    <p>Clicked Cards: {clickedCards.current.size}</p>
                 </div>
 
                 <button

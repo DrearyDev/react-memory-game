@@ -11,6 +11,11 @@ body {
     gap: 10px;
 }
 
+.instruction {
+    font-size: 1.3rem;
+    margin-bottom: 0px;
+}
+
 .cards-container {
     display: flex;
     flex-direction: row;
@@ -24,5 +29,28 @@ body {
 }
 .cards-container .card img {
     display: block;
-    max-width: calc(100vw / 3.5);
+    width: calc(100vw / 3.5);
+    max-width: 170px;
+}
+
+.scores {
+    width: 100%;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.scores p {
+    margin: 0px;
+}
+
+@media only screen and (min-width: 600px) {
+    #root {
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+
+    .instruction {
+        font-size: 1.8rem;
+    }
 }
